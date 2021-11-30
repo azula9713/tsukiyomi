@@ -1,26 +1,4 @@
-import React from "react";
 import styled from "styled-components";
-import NavMenuItems from "../Data/NavMenuItems";
-
-const Header = () => {
-  return (
-    <Nav>
-      <Logo>
-        <img src="/images/logo.png" alt="logo" />
-      </Logo>
-      <NavMenu>
-        {NavMenuItems.map((item, index) => (
-          <a href={item.path} key={index}>
-            <img src={item.icon} alt={item.title} />
-            <span>{item.title}</span>
-          </a>
-        ))}
-      </NavMenu>
-    </Nav>
-  );
-};
-
-export default Header;
 
 const Nav = styled.nav`
   position: fixed;
@@ -119,3 +97,21 @@ const NavMenu = styled.div`
     display: none;
   }
 `;
+
+const Login = styled.a`
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.42px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    background-color: white;
+    color: black;
+    border-color: transparent;
+  }
+`;
+
+export { Nav, NavMenu, Logo, Login };
