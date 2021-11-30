@@ -3,14 +3,24 @@ import { Link } from "react-router-dom";
 
 import { Login, Logo, Nav, NavMenu } from "./HeaderStyles";
 import NavMenuItems from "../../Data/NavMenuItems";
+import { signInWithPopup } from "@firebase/auth";
+import { auth, provider } from "../../Firebase";
 
 const Header = () => {
+  const handleAuth = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
   return (
     <Nav>
-      <Logo>
-        <Link to="/">
-          <img src="/images/logo.png" alt="logo" />
-        </Link>
+      <Logo href="/">
+        <img src="/images/logo.png" alt="logo" />
       </Logo>
       <NavMenu>
         {NavMenuItems.map((item, index) => (
@@ -20,7 +30,13 @@ const Header = () => {
           </Link>
         ))}
       </NavMenu>
-      <Login>Login</Login>
+      <Login
+        onClick={() => {
+          handleAuth();
+        }}
+      >
+        Login
+      </Login>
     </Nav>
   );
 };
