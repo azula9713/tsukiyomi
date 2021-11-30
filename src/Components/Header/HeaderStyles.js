@@ -21,7 +21,7 @@ const Nav = styled.nav`
   }
 `;
 
-const Logo = styled.a`
+const Logo = styled.div`
   padding: 0;
   margin-top: 4px;
   width: 160px;
@@ -114,4 +114,10 @@ const Login = styled.a`
   }
 `;
 
-export { Nav, NavMenu, Logo, Login };
+const UserImg = styled.img`
+  border-radius: 50%;
+  height: 100%;
+  padding: 12px 8px;
+`;
+
+export { Nav, NavMenu, Logo, Login, UserImg };
