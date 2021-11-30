@@ -1,9 +1,15 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Login from './Components/Login';
 
 function App() {
   return (
     <div className="App">
-     <h4>Test</h4>
+     <Router>
+       <Routes>
+         <Route exact path="/" element={<Login />} />
+       </Routes>
+     </Router>
     </div>
   );
 }
