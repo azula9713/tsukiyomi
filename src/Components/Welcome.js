@@ -15,7 +15,7 @@ const Welcome = () => {
             <Desc>
               <h3>
                 <marquee behavior="slide" direction="up">
-                  IT'S THE CYBER MONDAY SALE
+                  IT'S THE CYBER MONDAY SALE!
                 </marquee>
               </h3>
               <p>
@@ -51,7 +51,7 @@ const WelcomeContent = styled.div`
   height: 100%;
 
   @media only screen and (max-width: 479px) {
-    justify-content: flex-start;
+    justify-content: center;
   }
 `;
 
@@ -97,7 +97,11 @@ const Desc = styled.div`
     margin: 0;
     margin-top: 5px;
     font-weight: 900;
-    max-width: 400px;
+  }
+  @media only screen and (max-width: 479px) {
+    marquee {
+      text-align: center;
+    }
   }
 `;
 
