@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Login = (props) => {
+const Login = () => {
   return (
     <LoginContainer>
       <LoginContent>
@@ -50,11 +50,12 @@ const LoginContent = styled.div`
 `;
 
 const BgImage = styled.div`
-  background-image: url("/images/login-background.jpg");
+  background-image: url("/images/9263.jpeg");
   background-position: top;
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
+  opacity: 0.5;
   top: 0;
   left: 0;
   right: 0;
@@ -111,6 +112,7 @@ const SignUp = styled.button`
   border: none;
   padding: 20px;
   margin-top: 20px;
+  font-weight: 900;
   font-size: 25px;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
