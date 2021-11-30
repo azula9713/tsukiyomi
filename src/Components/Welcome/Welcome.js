@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { selectUser } from "../../App/Features/User/UserSlice";
 
 import {
   BgImage,
@@ -12,6 +16,15 @@ import {
 } from "./WelcomeStyles";
 
 const Welcome = () => {
+  const loggedInUser = useSelector(selectUser);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedInUser.isLoggedIn) {
+      navigate("/home");
+    }
+  }, [loggedInUser]);
+
   return (
     <>
       <Helmet>

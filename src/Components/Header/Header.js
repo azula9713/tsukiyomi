@@ -7,7 +7,7 @@ import {
   selectUser,
   setSignOutStatus,
   setUserLoginDetails,
-} from "../../app/Features/User/UserSlice";
+} from "../../App/Features/User/UserSlice";
 import {
   DropDownMenu,
   Login,
@@ -17,7 +17,7 @@ import {
   NavMenu,
   UserImg,
 } from "./HeaderStyles";
-import NavMenuItems from "../../Data/NavMenuItems";
+import NavMenuItems from "../../App/Data/NavMenuItems";
 import { signInWithPopup, signOut } from "@firebase/auth";
 import { auth, provider } from "../../Firebase";
 
