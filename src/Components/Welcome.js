@@ -1,32 +1,38 @@
 import React from "react";
 import styled from "styled-components";
+import { Helmet } from "react-helmet";
 
-const Login = () => {
+const Welcome = () => {
   return (
-    <LoginContainer>
-      <LoginContent>
-        <CTA>
-          <CTALogoOne src="/images/Asset_28.png" alt="logo" />
-          <Desc>
-            <h3>
-              <marquee behavior="slide" direction="up">
-                IT'S THE CYBER MONDAY SALE
-              </marquee>
-            </h3>
-            <p>
-              Stream Mayor of Kingstown, SOUTH PARK: POST COVID & more for 1
-              month FREE. Offer ends today.
-            </p>
-          </Desc>
-          <SignUp>Enter Tsukiyomi</SignUp>
-        </CTA>
-        <BgImage />
-      </LoginContent>
-    </LoginContainer>
+    <>
+      <Helmet>
+        <title>Tsukiyomi - Welcome</title>
+      </Helmet>
+      <WelcomeContainer>
+        <WelcomeContent>
+          <CTA>
+            <CTALogoOne src="/images/Asset_28.png" alt="logo" />
+            <Desc>
+              <h3>
+                <marquee behavior="slide" direction="up">
+                  IT'S THE CYBER MONDAY SALE
+                </marquee>
+              </h3>
+              <p>
+                Stream Mayor of Kingstown, SOUTH PARK: POST COVID & more for 1
+                month FREE. Offer ends today.
+              </p>
+            </Desc>
+            <SignUp>Enter Tsukiyomi</SignUp>
+          </CTA>
+          <BgImage />
+        </WelcomeContent>
+      </WelcomeContainer>
+    </>
   );
 };
 
-const LoginContainer = styled.section`
+const WelcomeContainer = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -34,7 +40,7 @@ const LoginContainer = styled.section`
   height: 100vh;
 `;
 
-const LoginContent = styled.div`
+const WelcomeContent = styled.div`
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -123,4 +129,4 @@ const SignUp = styled.button`
   }
 `;
 
-export default Login;
+export default Welcome;
