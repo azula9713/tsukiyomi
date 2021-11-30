@@ -1,15 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectUser,
+  setSignOutStatus,
   setUserLoginDetails,
 } from "../../app/Features/User/UserSlice";
-import { Login, Logo, Nav, NavMenu, UserImg } from "./HeaderStyles";
+import {
+  DropDownMenu,
+  Login,
+  Logo,
+  Logout,
+  Nav,
+  NavMenu,
+  UserImg,
+} from "./HeaderStyles";
 import NavMenuItems from "../../Data/NavMenuItems";
-import { signInWithPopup } from "@firebase/auth";
+import { signInWithPopup, signOut } from "@firebase/auth";
 import { auth, provider } from "../../Firebase";
 
 const Header = () => {
@@ -18,20 +27,44 @@ const Header = () => {
   const loggedInUser = useSelector(selectUser);
 
   const handleAuth = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        dispatch(
-          setUserLoginDetails({
-            name: result.user.displayName,
-            email: result.user.email,
-            photo: result.user.photoURL,
-          })
-        );
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    if (!loggedInUser.isLoggedIn) {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          handleUser(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else {
+      signOut(auth)
+        .then(() => {
+          dispatch(setSignOutStatus());
+          navigate("/");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
   };
+
+  const handleUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        handleUser(user);
+        navigate("/home");
+      }
+    });
+  }, [loggedInUser]);
 
   return (
     <Nav>
@@ -52,7 +85,12 @@ const Header = () => {
               </Link>
             ))}
           </NavMenu>
-          <UserImg src={loggedInUser.photo} alt="user" />
+          <Logout>
+            <UserImg src={loggedInUser.photo} alt="user" />
+            <DropDownMenu>
+              <span onClick={handleAuth}>Log Out</span>
+            </DropDownMenu>
+          </Logout>
         </>
       )}
     </Nav>
