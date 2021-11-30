@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import NavMenuItems from "../Data/NavMenuItems";
 
 const Header = () => {
   return (
@@ -8,30 +9,12 @@ const Header = () => {
         <img src="/images/logo.png" alt="logo" />
       </Logo>
       <NavMenu>
-        <a href="/home">
-          <img src="/images/home-icon.svg" alt="home" />
-          <span>HOME</span>
-        </a>
-        <a href="/search">
-          <img src="/images/search-icon.svg" alt="search" />
-          <span>SEARCH</span>
-        </a>
-        <a href="/watchlist">
-          <img src="/images/watchlist-icon.svg" alt="watchlist" />
-          <span>WATCHLIST</span>
-        </a>
-        <a href="/originals">
-          <img src="/images/original-icon.svg" alt="originals" />
-          <span>ORIGINALS</span>
-        </a>
-        <a href="/movies">
-          <img src="/images/movie-icon.svg" alt="movies" />
-          <span>MOVIES</span>
-        </a>
-        <a href="/series">
-          <img src="/images/series-icon.svg" alt="series" />
-          <span>SERIES</span>
-        </a>
+        {NavMenuItems.map((item, index) => (
+          <a href={item.path} key={index}>
+            <img src={item.icon} alt={item.title} />
+            <span>{item.title}</span>
+          </a>
+        ))}
       </NavMenu>
     </Nav>
   );
@@ -46,6 +29,7 @@ const Nav = styled.nav`
   right: 0;
   bottom: 0;
   height: 70px;
+  /* If color needed */
   /* background-color: #040714; */
   display: flex;
   justify-content: space-between;
