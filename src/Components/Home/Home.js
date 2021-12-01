@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 
 import { selectUser } from "../../App/Features/User/UserSlice";
+import Collection from "../Collection/Collection";
 import ImageSlider from "../ImageSlider/ImageSlider";
 import { HomeContainer } from "./HomeStyles";
 
@@ -16,6 +17,7 @@ const Home = () => {
       </Helmet>
       <HomeContainer>
         <ImageSlider />
+        <Collection />
       </HomeContainer>
     </>
   );
