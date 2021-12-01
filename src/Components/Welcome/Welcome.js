@@ -23,7 +23,7 @@ const Welcome = () => {
     if (loggedInUser.isLoggedIn) {
       navigate("/home");
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, navigate]);
 
   return (
     <>
