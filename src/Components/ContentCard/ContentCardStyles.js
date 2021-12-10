@@ -3,14 +3,14 @@ import styled from "styled-components";
 const RecommendsContainer = styled.section`
   padding: 0 0 26px;
   color: white;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 `;
 
 const Card = styled.div`
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
-  padding: 30px;
+  padding: 20px;
 
   ::-webkit-scrollbar {
     display: none;
@@ -25,7 +25,6 @@ const ContentWrapper = styled.div`
   max-height: 300px;
   width: 100%;
   object-fit: contain;
-
   cursor: pointer;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
   margin-right: 20px;
@@ -50,7 +49,7 @@ const ContentWrapper = styled.div`
   }
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
 
     @media (max-width: 768px) {
       transform: scale(1);

@@ -64,7 +64,8 @@ const Header = () => {
         navigate("/home");
       }
     });
-  }, [loggedInUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser, navigate]);
 
   return (
     <Nav>
