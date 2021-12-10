@@ -75,7 +75,13 @@ const Header = () => {
         </Link>
       </Logo>
       {!loggedInUser.isLoggedIn ? (
-        <Login onClick={handleAuth}>Login</Login>
+        <Login
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Login
+        </Login>
       ) : (
         <>
           <NavMenu>

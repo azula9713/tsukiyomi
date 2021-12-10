@@ -17,6 +17,7 @@ const WelcomeContent = styled.div`
   flex-direction: column;
   padding: 80px 40px;
   height: 100%;
+  margin-top: 20px;
 
   @media only screen and (max-width: 479px) {
     justify-content: center;
