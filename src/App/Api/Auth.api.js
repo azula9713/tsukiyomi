@@ -12,7 +12,39 @@ export const loginUser = async (email, password) => {
 
     return res.data.user;
   } catch (err) {
-    alert(err.response.data);
+    console.log(err.response.data);
+  }
+};
+
+export const getSessions = async () => {
+  try {
+    const res = await api.get("/sessions", {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem("accesstoken")}`,
+        "x-refresh": localStorage.getItem("refreshtoken"),
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err.response.data);
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const res = await api.patch(
+      "/sessions/logout",
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${sessionStorage.getItem("accesstoken")}`,
+        },
+      }
+    );
+    sessionStorage.removeItem("accesstoken");
+    localStorage.removeItem("refreshtoken");
+    return res.data;
+  } catch (err) {
     console.log(err.response.data);
   }
 };
