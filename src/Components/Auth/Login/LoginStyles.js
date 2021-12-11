@@ -81,8 +81,10 @@ const BgImage = styled.div`
   height: 100%;
 `;
 
-function Input({ type, placeholder }) {
-  return <StyledInput type={type} placeholder={placeholder} />;
+function Input({ type, placeholder, onChange }) {
+  return (
+    <StyledInput type={type} placeholder={placeholder} onChange={onChange} />
+  );
 }
 
 const StyledInput = styled.input`
@@ -108,8 +110,8 @@ const StyledInput = styled.input`
   }
 `;
 
-function Button({ content }) {
-  return <StyledButton>{content}</StyledButton>;
+function Button({ content, onClick }) {
+  return <StyledButton onClick={onClick}>{content}</StyledButton>;
 }
 
 const StyledButton = styled.button`
