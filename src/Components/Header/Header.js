@@ -43,7 +43,6 @@ const Header = () => {
 
   useEffect(async () => {
     if (!loggedInUser.isLoggedIn) {
-      console.log("step1");
       const sessions = await getSessions();
       if (sessions && sessions.length > 0) {
         console.log("step2 if");
@@ -56,13 +55,10 @@ const Header = () => {
           })
         );
       } else {
-        console.log("step2 else");
         navigate("/login");
       }
     } else {
-      console.log("step1 else");
-      const sessions = await getSessions();
-      console.log(sessions);
+      // const sessions = await getSessions();
     }
   }, [loggedInUser, navigate]);
 
