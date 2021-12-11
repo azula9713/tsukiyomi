@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../../App/Api/Auth.api";
-import { setUserLoginDetails } from "../../../App/Features/User/UserSlice";
+import {
+  setUserLoginDetails,
+  selectUser,
+} from "../../../App/Features/User/UserSlice";
 import {
   BgImage,
   LoginContainer,
@@ -18,8 +22,16 @@ import {
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loggedInUser = useSelector(selectUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (loggedInUser.isLoggedIn) {
+      navigate("/home");
+    }
+  }, [loggedInUser, navigate]);
 
   return (
     <>

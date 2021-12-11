@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectUser,
   setSignOutStatus,
-  setUserLoginDetails,
 } from "../../App/Features/User/UserSlice";
 import {
   DropDownMenu,
@@ -18,8 +17,6 @@ import {
   UserImg,
 } from "./HeaderStyles";
 import NavMenuItems from "../../App/Data/NavMenuItems";
-import { signInWithPopup, signOut } from "@firebase/auth";
-import { auth, provider } from "../../Firebase";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -27,44 +24,16 @@ const Header = () => {
   const loggedInUser = useSelector(selectUser);
 
   const handleAuth = () => {
-    if (!loggedInUser.isLoggedIn) {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          handleUser(result.user);
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
-    } else {
-      signOut(auth)
-        .then(() => {
-          dispatch(setSignOutStatus());
-          navigate("/");
-        })
-        .catch((error) => {
-          alert(error.message);
-        });
+    if (loggedInUser.isLoggedIn) {
+      dispatch(setSignOutStatus());
+      navigate("/");
     }
   };
 
-  const handleUser = (user) => {
-    dispatch(
-      setUserLoginDetails({
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-      })
-    );
-  };
-
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        handleUser(user);
-        navigate("/home");
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!loggedInUser.isLoggedIn) {
+      navigate("/login");
+    }
   }, [loggedInUser, navigate]);
 
   return (
