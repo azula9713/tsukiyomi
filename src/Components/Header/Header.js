@@ -30,7 +30,7 @@ const Header = () => {
     if (loggedInUser.isLoggedIn) {
       dispatch(setSignOutStatus());
       await logoutUser();
-
+      window.location.reload();
       navigate("/");
     } else {
     }
@@ -43,9 +43,7 @@ const Header = () => {
 
   useEffect(async () => {
     if (!loggedInUser.isLoggedIn) {
-      const sessions = await getSessions();
-      if (sessions && sessions.length > 0) {
-        console.log("step2 if");
+      if (localStorage.getItem("refreshtoken")) {
         const decoded = jwt_decode(localStorage.getItem("refreshtoken"));
         dispatch(
           setUserLoginDetails({
@@ -57,8 +55,6 @@ const Header = () => {
       } else {
         navigate("/login");
       }
-    } else {
-      // const sessions = await getSessions();
     }
   }, [loggedInUser, navigate]);
 
@@ -91,8 +87,6 @@ const Header = () => {
             <UserImg src={loggedInUser.photo} alt="user" />
             <DropDownMenu>
               <span onClick={logout}>Log Out</span>
-              <br />
-              <span onClick={sessionFunction}>Get Sessions</span>
             </DropDownMenu>
           </Logout>
         </>
