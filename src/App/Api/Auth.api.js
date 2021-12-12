@@ -7,7 +7,7 @@ export const loginUser = async (email, password) => {
       password,
     });
 
-    sessionStorage.setItem("accesstoken", res.data.accessToken);
+    localStorage.setItem("accesstoken", res.data.accessToken);
     localStorage.setItem("refreshtoken", res.data.refreshToken);
 
     return res.data.user;
@@ -18,12 +18,7 @@ export const loginUser = async (email, password) => {
 
 export const getSessions = async () => {
   try {
-    const res = await api.get("/sessions", {
-      headers: {
-        authorization: `Bearer ${sessionStorage.getItem("accesstoken")}`,
-        "x-refresh": localStorage.getItem("refreshtoken"),
-      },
-    });
+    const res = await api.get("/sessions", {});
     return res.data;
   } catch (err) {
     console.log(err.response.data);
@@ -32,17 +27,7 @@ export const getSessions = async () => {
 
 export const logoutUser = async () => {
   try {
-    const res = await api.patch(
-      "/sessions/logout",
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${sessionStorage.getItem("accesstoken")}`,
-        },
-      }
-    );
-    sessionStorage.removeItem("accesstoken");
-    localStorage.removeItem("refreshtoken");
+    const res = await api.patch("/sessions/logout");
     return res.data;
   } catch (err) {
     console.log(err.response.data);

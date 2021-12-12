@@ -30,24 +30,20 @@ const Header = () => {
     if (loggedInUser.isLoggedIn) {
       dispatch(setSignOutStatus());
       await logoutUser();
+      localStorage.removeItem("accesstoken");
+      localStorage.removeItem("refreshtoken");
       window.location.reload();
       navigate("/");
     } else {
     }
   };
 
-  useEffect(async () => {
-    if (!loggedInUser.isLoggedIn && localStorage.getItem("refreshtoken")) {
-      const decoded = jwt_decode(localStorage.getItem("refreshtoken"));
-      dispatch(
-        setUserLoginDetails({
-          name: decoded.firstName + " " + decoded.lastName,
-          email: decoded.email,
-          photo: decoded.photoURL,
-        })
-      );
+  useEffect(() => {
+    if (!loggedInUser.isLoggedIn && !localStorage.getItem("accesstoken")) {
+      navigate("/");
     }
-  }, [loggedInUser, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser]);
 
   return (
     <Nav>
