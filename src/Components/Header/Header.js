@@ -19,7 +19,7 @@ import {
   UserImg,
 } from "./HeaderStyles";
 import NavMenuItems from "../../App/Data/NavMenuItems";
-import { getSessions, logoutUser } from "../../App/Api/Auth.api";
+import { logoutUser } from "../../App/Api/Auth.api";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -36,25 +36,16 @@ const Header = () => {
     }
   };
 
-  const sessionFunction = async () => {
-    const sessions = await getSessions();
-    console.log("sessions", sessions);
-  };
-
   useEffect(async () => {
-    if (!loggedInUser.isLoggedIn) {
-      if (localStorage.getItem("refreshtoken")) {
-        const decoded = jwt_decode(localStorage.getItem("refreshtoken"));
-        dispatch(
-          setUserLoginDetails({
-            name: decoded.firstName + " " + decoded.lastName,
-            email: decoded.email,
-            photo: decoded.photoURL,
-          })
-        );
-      } else {
-        navigate("/login");
-      }
+    if (!loggedInUser.isLoggedIn && localStorage.getItem("refreshtoken")) {
+      const decoded = jwt_decode(localStorage.getItem("refreshtoken"));
+      dispatch(
+        setUserLoginDetails({
+          name: decoded.firstName + " " + decoded.lastName,
+          email: decoded.email,
+          photo: decoded.photoURL,
+        })
+      );
     }
   }, [loggedInUser, navigate]);
 
