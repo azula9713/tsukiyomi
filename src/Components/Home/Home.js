@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setMovies } from "../../App/Features/Movie/MovieSlice";
+import { selectUser } from "../../App/Features/User/UserSlice";
 import Collection from "../Collection/Collection";
 import ImageSlider from "../ImageSlider/ImageSlider";
 import ContentCard from "../ContentCard/ContentCard";
 import { HomeContainer } from "./HomeStyles";
 import { getAllMovies } from "../../App/Api/Movie.api";
+import Header from "../Header/Header";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const loggedInUser = useSelector(selectUser);
 
   const getMovies = async () => {
     const payload = await getAllMovies();
@@ -18,16 +21,19 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getMovies();
+    if (loggedInUser.isLoggedIn) {
+      getMovies();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loggedInUser.isLoggedIn]);
 
   return (
     <>
       <Helmet>
         <title>Tsukiyomi - Home</title>
       </Helmet>
+      <Header />
       <HomeContainer>
         <ImageSlider />
         <Collection />

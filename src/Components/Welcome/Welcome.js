@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { selectUser } from "../../App/Features/User/UserSlice";
+import NonAuthHeader from "../Header/NonAuthHeader";
 
 import {
   BgImage,
@@ -30,6 +31,7 @@ const Welcome = () => {
       <Helmet>
         <title>Tsukiyomi - Welcome</title>
       </Helmet>
+      <NonAuthHeader />
       <WelcomeContainer>
         <WelcomeContent>
           <CTA>

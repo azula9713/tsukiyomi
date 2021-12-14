@@ -98,22 +98,6 @@ const NavMenu = styled.div`
   }
 `;
 
-const Login = styled.a`
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 8px 16px;
-  text-transform: uppercase;
-  letter-spacing: 1.42px;
-  border: 1px solid #fff;
-  border-radius: 4px;
-  transition: all 0.3s ease 0s;
-
-  &:hover {
-    background-color: white;
-    color: black;
-    border-color: transparent;
-  }
-`;
-
 const UserImg = styled.img`
   height: 100%;
 `;
@@ -158,4 +142,4 @@ const Logout = styled.div`
   }
 `;
 
-export { Nav, NavMenu, Logo, Login, UserImg, Logout, DropDownMenu };
+export { Nav, NavMenu, Logo, UserImg, Logout, DropDownMenu };

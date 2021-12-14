@@ -5,10 +5,8 @@ import jwt_decode from "jwt-decode";
 
 import "./App.css";
 import { selectUser, setUserLoginDetails } from "./App/Features/User/UserSlice";
-import RequireAuth from "./App/Services/AuthGuard.service";
 import Login from "./Components/Auth/Login/Login";
 import ContentDetails from "./Components/Details/ContentDetails";
-import Header from "./Components/Header/Header";
 import Home from "./Components/Home/Home";
 import Welcome from "./Components/Welcome/Welcome";
 
@@ -34,9 +32,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
         <Routes>
-          {/* ToDp:Add route guards */}
           <Route exact path="/" element={<Welcome />} />
           <Route exact path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />

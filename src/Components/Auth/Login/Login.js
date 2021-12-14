@@ -8,6 +8,7 @@ import {
   setUserLoginDetails,
   selectUser,
 } from "../../../App/Features/User/UserSlice";
+import NonAuthHeader from "../../Header/NonAuthHeader";
 import {
   BgImage,
   LoginContainer,
@@ -38,6 +39,7 @@ const Login = () => {
       <Helmet>
         <title>Tsukiyomi - Login</title>
       </Helmet>
+      <NonAuthHeader />
       <LoginContainer>
         <LoginContent>
           <WelcomeText>Welcome</WelcomeText>
