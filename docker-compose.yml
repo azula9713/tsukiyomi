@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  tsukiyomi-backend:
+  tsukiyomi:
     container_name: tsukiyomi
     restart: unless-stopped
     environment:
