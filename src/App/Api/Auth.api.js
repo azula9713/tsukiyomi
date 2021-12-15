@@ -1,48 +1,33 @@
 import api from "./Axios";
 
-export const loginUser = async (email, password) => {
-  try {
-    const res = await api.post("/sessions/login", {
-      email,
-      password,
-    });
+export const loginUser = async ({ email, password }) => {
+  const res = await api.post("/sessions/login", {
+    email,
+    password,
+  });
 
-    localStorage.setItem("accesstoken", res.data.accessToken);
-    localStorage.setItem("refreshtoken", res.data.refreshToken);
-
-    return res.data.user;
-  } catch (err) {
-    console.log(err.response.data);
-  }
+  return res;
 };
 
 export const getSessions = async () => {
-  try {
-    const res = await api.get("/sessions", {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
-        "x-refresh": localStorage.getItem("refreshtoken"),
-      },
-    });
-    return res;
-  } catch (err) {
-    console.log(err.response.data);
-  }
+  const res = await api.get("/sessions", {
+    headers: {
+      authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
+      "x-refresh": localStorage.getItem("refreshtoken"),
+    },
+  });
+  return res;
 };
 
 export const logoutUser = async () => {
-  try {
-    const res = await api.patch(
-      "/sessions/logout",
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
-        },
-      }
-    );
-    return res.data;
-  } catch (err) {
-    console.log(err.response.data);
-  }
+  const res = await api.patch(
+    "/sessions/logout",
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
+      },
+    }
+  );
+  return res;
 };

@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../../App/Api/Auth.api";
-import {
-  apiResult,
-  setRequestAPIError,
-  setRequestAPIStart,
-  setRequestAPISuccess,
-} from "../../../App/Features/RequestAPI/RequestAPISlice";
+
 import {
   setUserLoginDetails,
   selectUser,
@@ -31,9 +27,34 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loggedInUser = useSelector(selectUser);
-  const results = useSelector(apiResult);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const {
+    isLoading: loginLoading,
+    mutate: login,
+    isError: loginError,
+  } = useMutation(loginUser, {
+    onSuccess: (res) => {
+      console.log("res", res);
+      if (res.status === 200) {
+        localStorage.setItem("accesstoken", res.data.accessToken);
+        localStorage.setItem("refreshtoken", res.data.refreshToken);
+        dispatch(
+          setUserLoginDetails({
+            name: res.data.user.firstName + " " + res.data.user.lastName,
+            email: res.data.user.email,
+            photo: res.data.user.photoURL,
+          })
+        );
+      }
+    },
+    onError: (data) => {
+      // openErrorSnackbar('Error logging in', durations.snackbarDuration);
+      // setShowLoader(false);
+    },
+  });
 
   useEffect(() => {
     if (loggedInUser.isLoggedIn) {
@@ -69,35 +90,13 @@ const Login = () => {
           <ButtonContainer>
             <Button
               onClick={async () => {
-                dispatch(
-                  setRequestAPIStart({
-                    isLoading: true,
-                  })
-                );
-                console.log("res", results);
-                const userData = await loginUser(email, password);
-                if (userData) {
-                  dispatch(
-                    setRequestAPISuccess({
-                      data: userData,
-                    })
-                  );
-                  dispatch(
-                    setUserLoginDetails({
-                      name: userData.firstName + " " + userData.lastName,
-                      email: userData.email,
-                      photo: userData.photoURL,
-                    })
-                  );
-                } else {
-                  dispatch(
-                    setRequestAPIError({
-                      errorMessage: "Error",
-                    })
-                  );
-                }
+                const credentials = {
+                  email: email,
+                  password: password,
+                };
+                login(credentials);
               }}
-              content={results.isLoading ? "Loading..." : "Login"}
+              content={loginLoading ? "Logging In..." : "Login"}
             />
           </ButtonContainer>
           {/* <LoginWith>OR LOGIN WITH</LoginWith> */}
