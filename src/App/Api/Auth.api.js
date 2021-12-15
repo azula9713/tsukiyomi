@@ -24,7 +24,7 @@ export const getSessions = async () => {
         "x-refresh": localStorage.getItem("refreshtoken"),
       },
     });
-    return res.data;
+    return res;
   } catch (err) {
     console.log(err.response.data);
   }

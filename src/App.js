@@ -9,14 +9,16 @@ import Login from "./Components/Auth/Login/Login";
 import ContentDetails from "./Components/Details/ContentDetails";
 import Home from "./Components/Home/Home";
 import Welcome from "./Components/Welcome/Welcome";
+import { getSessions } from "./App/Api/Auth.api";
 
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectUser);
 
-  useEffect(() => {
-    if (!loggedInUser.isLoggedIn && localStorage.getItem("refreshtoken")) {
-      //ToDo:Should validate the token
+  const validateSession = async () => {
+    const res = await getSessions();
+    console.log(res);
+    if (res.status === 200) {
       const decoded = jwt_decode(localStorage.getItem("refreshtoken"));
       dispatch(
         setUserLoginDetails({
@@ -26,8 +28,14 @@ function App() {
         })
       );
     }
+  };
+
+  useEffect(() => {
+    if (!loggedInUser.isLoggedIn && localStorage.getItem("refreshtoken")) {
+      validateSession();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedInUser]);
+  }, [loggedInUser.isLoggedIn]);
 
   return (
     <div className="App">
