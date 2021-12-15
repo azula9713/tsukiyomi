@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   tsukiyomi-backend:
-    container_name: tsukiyomi-frontend
+    container_name: tsukiyomi
     restart: unless-stopped
     environment:
       - NODE_ENV=production
