@@ -62,9 +62,31 @@ const MetaData = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin: 15px 0;
+
+  p {
+    margin: 0 5px;
+  }
 `;
 
-const RatingIcon = styled.div``;
+const RatingWrapper = styled.div`
+  border: 1px solid #fff;
+  padding: 2px;
+  color: white;
+  background: #2a2a2a;
+`;
+
+const RatingIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+
+  img {
+    width: 20px;
+  }
+`;
 
 const ContentMeta = styled.div`
   max-width: 874px;
@@ -177,7 +199,11 @@ const SubTitle = styled.div`
   color: rgb(249, 249, 249);
   font-size: 15px;
   min-height: 20px;
-
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0px 5px;
+  }
   @media (max-width: 768px) {
     font-size: 12px;
   }
@@ -211,4 +237,5 @@ export {
   MovieTitle,
   MetaData,
   RatingIcon,
+  RatingWrapper,
 };

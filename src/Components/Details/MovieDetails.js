@@ -21,11 +21,12 @@ import {
   MovieTitle,
   MetaData,
   RatingIcon,
-} from "./ContentDetailsStyles";
+  RatingWrapper,
+} from "./MovieDetailsStyles";
 import Header from "../Header/Header";
 import CommonLoader from "../Loaders/CommonLoader";
 
-const ContentDetails = (props) => {
+const MovieDetails = (props) => {
   const { id } = useParams();
   const [content, setContent] = useState({});
 
@@ -69,21 +70,63 @@ const ContentDetails = (props) => {
             <ContentMeta>
               <MetaData>
                 <p>{content.movieReleaseDate}</p>
-                <p>{content.movieGenre}</p>
+                <p>•</p>
+                <p>{content.movieDuration}</p>
               </MetaData>
-
+              {content?.movieGenre?.map(function (genre, index) {
+                return <span key={index}>{(index ? ", " : "") + genre}</span>;
+              })}
               <MetaData>
-                <p>{content.movieRating}</p>
+                <RatingWrapper>
+                  <p>{content.movieRating}</p>
+                </RatingWrapper>
+
                 <RatingIcon>
+                  <img alt="imdb" src="/images/IMDB.svg" />
                   <p>{content.movieScore?.imdb}</p>
                 </RatingIcon>
-                <p>{content.movieScore?.rottenTomatoes}</p>
-                <p>{content.movieScore?.rottenTomatoesUser}</p>
-                <p>{content.movieScore?.metacritic}</p>
+                <RatingIcon>
+                  <img
+                    alt="imdb"
+                    src={
+                      content.movieScore?.rottenTomatoes > 60
+                        ? "/images/Rotten_Tomatoes.svg"
+                        : "/images/Rotten_Tomatoes_rotten.svg"
+                    }
+                  />
+                  <p>{content.movieScore?.rottenTomatoes}%</p>
+                </RatingIcon>
+                <RatingIcon>
+                  <img
+                    alt="imdb"
+                    src={
+                      content.movieScore?.rottenTomatoesUser > 60
+                        ? "/images/positive_audience.svg"
+                        : "/images/negative_audience.svg"
+                    }
+                  />
+                  <p>{content.movieScore?.rottenTomatoesUser}%</p>
+                </RatingIcon>
+                <RatingIcon>
+                  <img alt="imdb" src="/images/Metacritic.png" />
+                  <p>{content.movieScore?.metacritic}/100</p>
+                </RatingIcon>
               </MetaData>
             </ContentMeta>
             <Description>{content.movieDescription}</Description>
-            <SubTitle>{content.movieSubtitles}</SubTitle>
+            {/* <SubTitle>
+              <p>Subtitle language</p>
+              <select>
+                <option>Select language</option>
+                {content.movieSubtitles?.map((subtitle, index) => {
+                  return (
+                    <option key={index} value={subtitle}>
+                      {subtitle}
+                    </option>
+                  );
+                })}
+              </select>
+            </SubTitle> */}
           </InformationSection>
         </ContentData>
 
@@ -113,4 +156,4 @@ const ContentDetails = (props) => {
   );
 };
 
-export default ContentDetails;
+export default MovieDetails;

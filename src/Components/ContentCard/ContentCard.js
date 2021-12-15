@@ -15,7 +15,7 @@ const ContentCard = ({ title }) => {
         {movies &&
           movies.map((item) => (
             <ContentWrapper key={item.movieId}>
-              <Link to={`/contentdetail/${item.movieId}`}>
+              <Link to={`/movie/${item.movieId}`}>
                 <img src={item.movieThumbnail} alt={item.movieTitle} />
               </Link>
             </ContentWrapper>
