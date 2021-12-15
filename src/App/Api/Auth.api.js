@@ -19,6 +19,16 @@ export const getSessions = async () => {
   return res;
 };
 
+export const validateUser = async () => {
+  const res = await api.get("/sessions/validate", {
+    headers: {
+      authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
+      "x-refresh": localStorage.getItem("refreshtoken"),
+    },
+  });
+  return res;
+};
+
 export const logoutUser = async () => {
   const res = await api.patch(
     "/sessions/logout",
@@ -26,6 +36,7 @@ export const logoutUser = async () => {
     {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
+        "x-refresh": localStorage.getItem("refreshtoken"),
       },
     }
   );
