@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../../App/Api/Auth.api";
 import {
+  apiResult,
+  setRequestAPIError,
+  setRequestAPIStart,
+  setRequestAPISuccess,
+} from "../../../App/Features/RequestAPI/RequestAPISlice";
+import {
   setUserLoginDetails,
   selectUser,
 } from "../../../App/Features/User/UserSlice";
@@ -25,6 +31,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loggedInUser = useSelector(selectUser);
+  const results = useSelector(apiResult);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,16 +69,35 @@ const Login = () => {
           <ButtonContainer>
             <Button
               onClick={async () => {
-                const userData = await loginUser(email, password);
                 dispatch(
-                  setUserLoginDetails({
-                    name: userData.firstName + " " + userData.lastName,
-                    email: userData.email,
-                    photo: userData.photoURL,
+                  setRequestAPIStart({
+                    isLoading: true,
                   })
                 );
+                console.log("res", results);
+                const userData = await loginUser(email, password);
+                if (userData) {
+                  dispatch(
+                    setRequestAPISuccess({
+                      data: userData,
+                    })
+                  );
+                  dispatch(
+                    setUserLoginDetails({
+                      name: userData.firstName + " " + userData.lastName,
+                      email: userData.email,
+                      photo: userData.photoURL,
+                    })
+                  );
+                } else {
+                  dispatch(
+                    setRequestAPIError({
+                      errorMessage: "Error",
+                    })
+                  );
+                }
               }}
-              content="Login"
+              content={results.isLoading ? "Loading..." : "Login"}
             />
           </ButtonContainer>
           {/* <LoginWith>OR LOGIN WITH</LoginWith> */}

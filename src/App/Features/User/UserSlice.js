@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import User from "../../Models/User.model";
 
 const initialState = User;
