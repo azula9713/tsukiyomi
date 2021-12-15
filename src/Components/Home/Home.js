@@ -1,32 +1,42 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useQuery } from "react-query";
 
 import { setMovies } from "../../App/Features/Movie/MovieSlice";
-import { selectUser } from "../../App/Features/User/UserSlice";
 import Collection from "../Collection/Collection";
 import ImageSlider from "../ImageSlider/ImageSlider";
 import ContentCard from "../ContentCard/ContentCard";
 import { HomeContainer } from "./HomeStyles";
 import { getAllMovies } from "../../App/Api/Movie.api";
 import Header from "../Header/Header";
+import CommonLoader from "../Loaders/CommonLoader";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector(selectUser);
 
-  const getMovies = async () => {
-    const payload = await getAllMovies();
-    dispatch(setMovies(payload)); // set movies in redux store
-  };
+  const { isLoading: moviesFetching } = useQuery(
+    "fetchAllMovies",
+    getAllMovies,
+    {
+      retry: false,
+      onSuccess: (res) => {
+        if (res.status === 200) {
+          const movies = res.data;
 
-  useEffect(() => {
-    if (loggedInUser.isLoggedIn) {
-      getMovies();
+          dispatch(setMovies(movies));
+        }
+      },
+      onError: (err) => {
+        //Add error handling
+        console.log(err);
+      },
     }
+  );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedInUser.isLoggedIn]);
+  if (moviesFetching) {
+    return <CommonLoader />;
+  }
 
   return (
     <>
