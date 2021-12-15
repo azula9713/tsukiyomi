@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery, useQueryClient } from "react-query";
 
 import {
   selectUser,
   setSignOutStatus,
+  setUserLoginDetails,
 } from "../../App/Features/User/UserSlice";
 import {
   DropDownMenu,
@@ -16,31 +17,54 @@ import {
   UserImg,
 } from "./HeaderStyles";
 import NavMenuItems from "../../App/Data/NavMenuItems";
-import { logoutUser } from "../../App/Api/Auth.api";
+import { logoutUser, validateUser } from "../../App/Api/Auth.api";
+import CommonLoader from "../Loaders/CommonLoader";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const client = useQueryClient();
   const loggedInUser = useSelector(selectUser);
+
+  const { isLoading: validating } = useQuery("validateToken", validateUser, {
+    retry: false,
+    onSuccess: (res) => {
+      if (res.status === 200) {
+        const user = res.data;
+
+        dispatch(
+          setUserLoginDetails({
+            name: user.firstName + " " + user.lastName,
+            email: user.email,
+            photo: user.photoURL,
+          })
+        );
+      }
+    },
+    onError: (err) => {
+      //Add error handling
+      window.location.replace("/");
+    },
+  });
 
   const logout = async () => {
     if (loggedInUser.isLoggedIn) {
-      const logoutData = await logoutUser();
+      await logoutUser();
       dispatch(setSignOutStatus());
       localStorage.removeItem("accesstoken");
       localStorage.removeItem("refreshtoken");
-      // localStorage.setItem("accesstoken", logoutData.accesstoken);
-      // localStorage.setItem("refreshtoken", logoutData.refreshtoken);
     }
   };
 
   useEffect(() => {
     if (!loggedInUser.isLoggedIn) {
-      console.log("hello");
-      navigate("/");
+      client.refetchQueries("validateToken");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser.isLoggedIn]);
+
+  if (validating) {
+    return <CommonLoader />;
+  }
 
   return (
     <Nav>
